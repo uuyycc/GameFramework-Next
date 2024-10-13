@@ -66,5 +66,17 @@
         /// </summary>
         /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
         void StopAllLoadedSounds(float fadeOutSeconds);
+        
+        /// <summary>
+        /// 暂停所有已加载的声音。
+        /// </summary>
+        /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
+        void PauseAllLoadedSounds(float fadeOutSeconds);
+        
+        /// <summary>
+        /// 恢复所有已暂停的声音。
+        /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
+        /// </summary>
+        void ResumeAllPausedSounds(float fadeInSeconds);
     }
 }

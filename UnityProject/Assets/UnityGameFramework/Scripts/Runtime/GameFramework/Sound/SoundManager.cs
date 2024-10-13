@@ -578,6 +578,46 @@ namespace GameFramework.Sound
             throw new GameFrameworkException(Utility.Text.Format("Can not find sound '{0}'.", serialId));
         }
 
+        /// <summary>
+        /// 暂停所有已加载的声音。
+        /// </summary>
+        public void PauseAllLoadedSounds()
+        {
+            PauseAllLoadedSounds(Constant.DefaultFadeOutSeconds);
+        }
+
+        /// <summary>
+        /// 暂停所有已加载的声音。
+        /// </summary>
+        /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
+        public void PauseAllLoadedSounds(float fadeOutSeconds)
+        {
+            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            {
+                soundGroup.Value.PauseAllLoadedSounds(fadeOutSeconds);
+            }
+        }
+
+        /// <summary>
+        /// 恢复所有已暂停的声音。
+        /// </summary>
+        public void ResumeAllPausedSounds()
+        {
+            ResumeAllPausedSounds(Constant.DefaultFadeInSeconds);
+        }
+
+        /// <summary>
+        /// 恢复所有已暂停的声音。
+        /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
+        /// </summary>
+        public void ResumeAllPausedSounds(float fadeInSeconds)
+        {
+            foreach (KeyValuePair<string, SoundGroup> soundGroup in m_SoundGroups)
+            {
+                soundGroup.Value.ResumeAllPausedSounds(fadeInSeconds);
+            }
+        }
+
         private void LoadAssetSuccessCallback(string soundAssetName, object soundAsset, float duration, object userData)
         {
             PlaySoundInfo playSoundInfo = (PlaySoundInfo)userData;

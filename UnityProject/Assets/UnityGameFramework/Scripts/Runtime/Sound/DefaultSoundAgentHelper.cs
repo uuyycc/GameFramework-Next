@@ -27,6 +27,17 @@ namespace UnityGameFramework.Runtime
                 return m_AudioSource.isPlaying || m_IsPaused;
             }
         }
+        
+        /// <summary>
+        /// 获取当前是否暂停。
+        /// </summary>
+        public override bool IsPaused
+        {
+            get
+            {
+                return m_IsPaused;
+            }
+        }
 
         /// <summary>
         /// 获取声音长度。

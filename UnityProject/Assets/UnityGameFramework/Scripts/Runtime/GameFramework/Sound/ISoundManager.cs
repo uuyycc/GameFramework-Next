@@ -247,5 +247,27 @@ namespace GameFramework.Sound
         /// <param name="serialId">要恢复播放声音的序列编号。</param>
         /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
         void ResumeSound(int serialId, float fadeInSeconds);
+        
+        /// <summary>
+        /// 暂停所有已加载的声音。
+        /// </summary>
+        void PauseAllLoadedSounds();
+        
+        /// <summary>
+        /// 暂停所有已加载的声音。
+        /// </summary>
+        /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
+        void PauseAllLoadedSounds(float fadeOutSeconds);
+        
+        /// <summary>
+        /// 恢复所有已暂停的声音。
+        /// </summary>
+        void ResumeAllPausedSounds();
+        
+        /// <summary>
+        /// 恢复所有已暂停的声音。
+        /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
+        /// </summary>
+        void ResumeAllPausedSounds(float fadeInSeconds);
     }
 }

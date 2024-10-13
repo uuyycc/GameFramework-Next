@@ -548,6 +548,40 @@ namespace UnityGameFramework.Runtime
         {
             m_SoundManager.ResumeSound(serialId, fadeInSeconds);
         }
+        
+        /// <summary>
+        /// 暂停所有已加载的声音。
+        /// </summary>
+        public void PauseAllLoadedSounds()
+        {
+            m_SoundManager.PauseAllLoadedSounds();
+        }
+
+        /// <summary>
+        /// 暂停所有已加载的声音。
+        /// </summary>
+        /// <param name="fadeOutSeconds">声音淡出时间，以秒为单位。</param>
+        public void PauseAllLoadedSounds(float fadeOutSeconds)
+        {
+            m_SoundManager.PauseAllLoadedSounds(fadeOutSeconds);
+        }
+
+        /// <summary>
+        /// 恢复所有已暂停的声音。
+        /// </summary>
+        public void ResumeAllPausedSounds()
+        {
+            m_SoundManager.ResumeAllPausedSounds();
+        }
+
+        /// <summary>
+        /// 恢复所有已暂停的声音。
+        /// <param name="fadeInSeconds">声音淡入时间，以秒为单位。</param>
+        /// </summary>
+        public void ResumeAllPausedSounds(float fadeInSeconds)
+        {
+            m_SoundManager.ResumeAllPausedSounds(fadeInSeconds);
+        }
 
         /// <summary>
         /// 增加声音代理辅助器。

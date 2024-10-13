@@ -17,6 +17,14 @@ namespace UnityGameFramework.Runtime
         {
             get;
         }
+        
+        /// <summary>
+        /// 获取当前是否暂停。
+        /// </summary>
+        public abstract bool IsPaused
+        {
+            get;
+        }
 
         /// <summary>
         /// 获取声音长度。

@@ -14,6 +14,14 @@ namespace GameFramework.Sound
         {
             get;
         }
+        
+        /// <summary>
+        /// 获取当前是否暂停。
+        /// </summary>
+        bool IsPaused
+        {
+            get;
+        }
 
         /// <summary>
         /// 获取声音长度。

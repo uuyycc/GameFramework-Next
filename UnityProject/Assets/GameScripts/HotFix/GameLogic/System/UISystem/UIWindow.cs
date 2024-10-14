@@ -76,29 +76,6 @@ namespace GameLogic
         public int HideTimerId { get; set; }
 
         /// <summary>
-        /// 自定义数据。
-        /// </summary>
-        public System.Object UserData
-        {
-            get
-            {
-                if (userDatas != null && userDatas.Length >= 1)
-                {
-                    return userDatas[0];
-                }
-                else
-                {
-                    return null;
-                }
-            }
-        }
-
-        /// <summary>
-        /// 自定义数据集。
-        /// </summary>
-        public System.Object[] UserDatas => userDatas;
-
-        /// <summary>
         /// 窗口深度值。
         /// </summary>
         public int Depth
@@ -239,9 +216,9 @@ namespace GameLogic
             HideTimeToClose = hideTimeToClose;
         }
 
-        internal void TryInvoke(System.Action<UIWindow> prepareCallback, System.Object[] userDatas)
+        internal void TryInvoke(System.Action<UIWindow> prepareCallback, object customUserData)
         {
-            base.userDatas = userDatas;
+            UserData = customUserData;
             if (IsPrepare)
             {
                 prepareCallback?.Invoke(this);
@@ -253,10 +230,10 @@ namespace GameLogic
             CancelHideToCloseTimer();
         }
 
-        internal async UniTaskVoid InternalLoad(string location, Action<UIWindow> prepareCallback, bool isAsync, System.Object[] userDatas)
+        internal async UniTaskVoid InternalLoad(string location, Action<UIWindow> prepareCallback, bool isAsync, object customUserData)
         {
             _prepareCallback = prepareCallback;
-            this.userDatas = userDatas;
+            UserData = customUserData;
             if (!FromResources)
             {
                 if (isAsync)

@@ -25,7 +25,7 @@ namespace GameLogic
         /// <summary>
         /// 自定义数据集。
         /// </summary>
-        protected System.Object[] userDatas;
+        public object UserData { protected set; get; }
 
         /// <summary>
         /// 窗口的实例资源对象。
@@ -362,40 +362,40 @@ namespace GameLogic
         /// <summary>
         /// 调整图标数量。
         /// </summary>
-        /// <remarks>常用于Icon创建。</remarks>
-        /// <param name="listIcon">存放Icon的列表。</param>
+        /// <remarks>常用于Item创建。</remarks>
+        /// <param name="itemList">存放Item的列表。</param>
         /// <param name="number">创建数目。</param>
         /// <param name="parentTrans">资源父节点。</param>
         /// <param name="prefab">资产副本。</param>
         /// <param name="assetPath">资产地址。</param>
         /// <typeparam name="T">图标类型。</typeparam>
-        public void AdjustIconNum<T>(List<T> listIcon, int number, Transform parentTrans, GameObject prefab = null, string assetPath = "")
+        public void AdjustItemNum<T>(List<T> itemList, int number, Transform parentTrans, GameObject prefab = null, string assetPath = "")
             where T : UIWidget, new()
         {
-            if (listIcon == null)
+            if (itemList == null)
             {
-                listIcon = new List<T>();
+                itemList = new List<T>();
             }
 
-            if (listIcon.Count < number)
+            if (itemList.Count < number)
             {
-                int needNum = number - listIcon.Count;
-                for (int iconIdx = 0; iconIdx < needNum; iconIdx++)
+                int needNum = number - itemList.Count;
+                for (int itemIdx = 0; itemIdx < needNum; itemIdx++)
                 {
                     T tmpT = prefab == null ? CreateWidgetByType<T>(parentTrans) : CreateWidgetByPrefab<T>(prefab, parentTrans);
-                    listIcon.Add(tmpT);
+                    itemList.Add(tmpT);
                 }
             }
-            else if (listIcon.Count > number)
+            else if (itemList.Count > number)
             {
-                RemoveUnUseItem<T>(listIcon, number);
+                RemoveUnUseItem<T>(itemList, number);
             }
         }
 
         /// <summary>
-        /// 异步调整图标数量。
+        /// 异步调整Item数量。
         /// </summary>
-        /// <param name="listIcon"></param>
+        /// <param name="itemList"></param>
         /// <param name="tarNum"></param>
         /// <param name="parentTrans"></param>
         /// <param name="prefab"></param>
@@ -403,17 +403,17 @@ namespace GameLogic
         /// <param name="maxNumPerFrame"></param>
         /// <param name="updateAction"></param>
         /// <typeparam name="T"></typeparam>
-        public void AsyncAdjustIconNum<T>(List<T> listIcon, int tarNum, Transform parentTrans, GameObject prefab = null,
+        public void AsyncAdjustItemNum<T>(List<T> itemList, int tarNum, Transform parentTrans, GameObject prefab = null,
             string assetPath = "", int maxNumPerFrame = 5,
             Action<T, int> updateAction = null) where T : UIWidget, new()
         {
-            AsyncAdjustIconNumInternal(listIcon, tarNum, parentTrans, maxNumPerFrame, updateAction, prefab, assetPath).Forget();
+            AsyncAdjustItemNumInternal(itemList, tarNum, parentTrans, maxNumPerFrame, updateAction, prefab, assetPath).Forget();
         }
 
         /// <summary>
         /// 异步创建接口。
         /// </summary>
-        /// <param name="listIcon"></param>
+        /// <param name="itemList"></param>
         /// <param name="tarNum"></param>
         /// <param name="parentTrans"></param>
         /// <param name="maxNumPerFrame"></param>
@@ -421,12 +421,12 @@ namespace GameLogic
         /// <param name="prefab"></param>
         /// <param name="assetPath"></param>
         /// <typeparam name="T"></typeparam>
-        private async UniTaskVoid AsyncAdjustIconNumInternal<T>(List<T> listIcon, int tarNum, Transform parentTrans, int maxNumPerFrame,
+        private async UniTaskVoid AsyncAdjustItemNumInternal<T>(List<T> itemList, int tarNum, Transform parentTrans, int maxNumPerFrame,
             Action<T, int> updateAction, GameObject prefab, string assetPath) where T : UIWidget, new()
         {
-            if (listIcon == null)
+            if (itemList == null)
             {
-                listIcon = new List<T>();
+                itemList = new List<T>();
             }
 
             int createCnt = 0;
@@ -434,9 +434,9 @@ namespace GameLogic
             for (int i = 0; i < tarNum; i++)
             {
                 T tmpT = null;
-                if (i < listIcon.Count)
+                if (i < itemList.Count)
                 {
-                    tmpT = listIcon[i];
+                    tmpT = itemList[i];
                 }
                 else
                 {
@@ -449,7 +449,7 @@ namespace GameLogic
                         tmpT = CreateWidgetByPrefab<T>(prefab, parentTrans);
                     }
 
-                    listIcon.Add(tmpT);
+                    itemList.Add(tmpT);
                 }
 
                 int index = i;
@@ -466,34 +466,34 @@ namespace GameLogic
                 }
             }
 
-            if (listIcon.Count > tarNum)
+            if (itemList.Count > tarNum)
             {
-                RemoveUnUseItem(listIcon, tarNum);
+                RemoveUnUseItem(itemList, tarNum);
             }
         }
 
-        private void RemoveUnUseItem<T>(List<T> listIcon, int tarNum) where T : UIWidget
+        private void RemoveUnUseItem<T>(List<T> itemList, int tarNum) where T : UIWidget
         {
-            var removeIcon = new List<T>();
-            for (int iconIdx = 0; iconIdx < listIcon.Count; iconIdx++)
+            var removeList = new List<T>();
+            for (int itemIdx = 0; itemIdx < itemList.Count; itemIdx++)
             {
-                var icon = listIcon[iconIdx];
-                if (iconIdx >= tarNum)
+                var item = itemList[itemIdx];
+                if (itemIdx >= tarNum)
                 {
-                    removeIcon.Add(icon);
+                    removeList.Add(item);
                 }
             }
 
-            for (var index = 0; index < removeIcon.Count; index++)
+            for (var index = 0; index < removeList.Count; index++)
             {
-                var icon = removeIcon[index];
-                listIcon.Remove(icon);
-                icon.OnDestroy();
-                icon.OnDestroyWidget();
-                ListChild.Remove(icon);
-                if (icon.gameObject != null)
+                var item = removeList[index];
+                itemList.Remove(item);
+                item.OnDestroy();
+                item.OnDestroyWidget();
+                ListChild.Remove(item);
+                if (item.gameObject != null)
                 {
-                    UnityEngine.Object.Destroy(icon.gameObject);
+                    UnityEngine.Object.Destroy(item.gameObject);
                 }
             }
         }

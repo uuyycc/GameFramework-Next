@@ -174,47 +174,47 @@ namespace GameLogic
         /// <summary>
         /// 异步打开窗口。
         /// </summary>
-        /// <param name="userDatas">用户自定义数据。</param>
+        /// <param name="userData">用户自定义数据。</param>
         /// <returns>打开窗口操作句柄。</returns>
-        public void ShowUIAsync<T>(params System.Object[] userDatas) where T : UIWindow
+        public void ShowUIAsync<T>(object userData = null) where T : UIWindow
         {
-            ShowUIImp(typeof(T), true, userDatas);
+            ShowUIImp(typeof(T), true, userData);
         }
 
         /// <summary>
         /// 异步打开窗口。
         /// </summary>
         /// <param name="type">界面类型。</param>
-        /// <param name="userDatas">用户自定义数据。</param>
+        /// <param name="userData">用户自定义数据。</param>
         /// <returns>打开窗口操作句柄。</returns>
-        public void ShowUIAsync(Type type, params System.Object[] userDatas)
+        public void ShowUIAsync(Type type, object userData = null)
         {
-            ShowUIImp(type, true, userDatas);
+            ShowUIImp(type, true, userData);
         }
 
         /// <summary>
         /// 同步打开窗口。
         /// </summary>
         /// <typeparam name="T">窗口类。</typeparam>
-        /// <param name="userDatas">用户自定义数据。</param>
+        /// <param name="userData">用户自定义数据。</param>
         /// <returns>打开窗口操作句柄。</returns>
-        public void ShowUI<T>(params System.Object[] userDatas) where T : UIWindow
+        public void ShowUI<T>(object userData = null) where T : UIWindow
         {
-            ShowUIImp(typeof(T), false, userDatas);
+            ShowUIImp(typeof(T), false, userData);
         }
 
         /// <summary>
         /// 同步打开窗口。
         /// </summary>
         /// <param name="type"></param>
-        /// <param name="userDatas"></param>
+        /// <param name="userData"></param>
         /// <returns>打开窗口操作句柄。</returns>
-        public void ShowUI(Type type, params System.Object[] userDatas)
+        public void ShowUI(Type type, object userData = null)
         {
-            ShowUIImp(type, false, userDatas);
+            ShowUIImp(type, false, userData);
         }
 
-        private void ShowUIImp(Type type, bool isAsync, params System.Object[] userDatas)
+        private void ShowUIImp(Type type, bool isAsync, object userData = null)
         {
             string windowName = type.FullName;
 
@@ -224,13 +224,13 @@ namespace GameLogic
                 UIWindow window = GetWindow(windowName);
                 Pop(window); //弹出窗口
                 Push(window); //重新压入
-                window.TryInvoke(OnWindowPrepare, userDatas);
+                window.TryInvoke(OnWindowPrepare, userData);
             }
             else
             {
                 UIWindow window = CreateInstance(type);
                 Push(window); //首次压入
-                window.InternalLoad(window.AssetName, OnWindowPrepare, isAsync, userDatas).Forget();
+                window.InternalLoad(window.AssetName, OnWindowPrepare, isAsync, userData).Forget();
             }
         }
 

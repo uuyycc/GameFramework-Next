@@ -253,6 +253,7 @@ namespace GameLogic
             Pop(window);
             OnSortWindowDepth(window.WindowLayer);
             OnSetWindowVisible();
+            GameEvent.Get<IUISystemEvent>().OnUIClose(window);
         }
         
         public void HideUI<T>() where T : UIWindow
@@ -287,13 +288,7 @@ namespace GameLogic
         /// </summary>
         public void CloseAll()
         {
-            for (int i = 0; i < _stack.Count; i++)
-            {
-                UIWindow window = _stack[i];
-                window.InternalDestroy();
-            }
-
-            _stack.Clear();
+            CloseAllWithOut(null);
         }
 
         /// <summary>
@@ -311,6 +306,7 @@ namespace GameLogic
 
                 window.InternalDestroy();
                 _stack.RemoveAt(i);
+                GameEvent.Get<IUISystemEvent>().OnUIClose(window);
             }
         }
 
@@ -329,6 +325,7 @@ namespace GameLogic
 
                 window.InternalDestroy();
                 _stack.RemoveAt(i);
+                GameEvent.Get<IUISystemEvent>().OnUIClose(window);
             }
         }
 
@@ -338,6 +335,7 @@ namespace GameLogic
             window.InternalCreate();
             window.InternalRefresh();
             OnSetWindowVisible();
+            GameEvent.Get<IUISystemEvent>().OnUIOpen(window);
         }
 
         private void OnSortWindowDepth(int layer)

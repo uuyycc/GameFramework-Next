@@ -67,6 +67,9 @@ namespace GameLogic
         /// </summary>
         protected bool m_updateListValid = false;
 
+        protected UIBaseLogic m_UILogic;
+        private bool m_HasUILogic;
+
         /// <summary>
         /// 代码自动生成绑定。
         /// </summary>
@@ -93,6 +96,16 @@ namespace GameLogic
         /// </summary>
         protected virtual void OnCreate()
         {
+            m_UILogic = gameObject.GetComponent<UIBaseLogic>();
+            if (m_UILogic != null)
+            {
+                m_UILogic.OnInit(this);
+                m_HasUILogic = true;
+            }
+            else
+            {
+                m_HasUILogic = false;
+            }
         }
 
         /// <summary>
@@ -100,6 +113,10 @@ namespace GameLogic
         /// </summary>
         protected virtual void OnRefresh()
         {
+            if (m_HasUILogic)
+            {
+                m_UILogic.OnOpen();
+            }
         }
 
         /// <summary>
@@ -113,6 +130,11 @@ namespace GameLogic
         protected virtual void OnUpdate()
         {
             HasOverrideUpdate = false;
+
+            if (m_HasUILogic)
+            {
+                m_UILogic.OnUpdate();
+            }
         }
 
         internal void CallDestroy()
@@ -125,6 +147,10 @@ namespace GameLogic
         /// </summary>
         protected virtual void OnDestroy()
         {
+            if (m_HasUILogic)
+            {
+                m_UILogic.OnClose();
+            }
         }
 
         /// <summary>
@@ -132,6 +158,10 @@ namespace GameLogic
         /// </summary>
         protected virtual void OnSortDepth(int depth)
         {
+            if (m_HasUILogic)
+            {
+                m_UILogic.OnSortDepth(depth);
+            }
         }
 
         /// <summary>
@@ -196,22 +226,22 @@ namespace GameLogic
             EventMgr.AddEvent(eventType, handler);
         }
 
-        protected void AddUIEvent<T>(int eventType, Action<T> handler)
+        public void AddUIEvent<T>(int eventType, Action<T> handler)
         {
             EventMgr.AddEvent(eventType, handler);
         }
 
-        protected void AddUIEvent<T, U>(int eventType, Action<T, U> handler)
+        public void AddUIEvent<T, U>(int eventType, Action<T, U> handler)
         {
             EventMgr.AddEvent(eventType, handler);
         }
 
-        protected void AddUIEvent<T, U, V>(int eventType, Action<T, U, V> handler)
+        public void AddUIEvent<T, U, V>(int eventType, Action<T, U, V> handler)
         {
             EventMgr.AddEvent(eventType, handler);
         }
 
-        protected void AddUIEvent<T, U, V, W>(int eventType, Action<T, U, V, W> handler)
+        public void AddUIEvent<T, U, V, W>(int eventType, Action<T, U, V, W> handler)
         {
             EventMgr.AddEvent(eventType, handler);
         }

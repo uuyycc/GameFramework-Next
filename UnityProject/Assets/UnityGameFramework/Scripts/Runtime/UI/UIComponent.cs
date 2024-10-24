@@ -65,6 +65,10 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField]
         private UIGroup[] m_UIGroups = null;
+        
+        private Transform m_BlockInputComponent;
+        
+        private HashSet<string> m_BlockInputReasons = new HashSet<string>();
 
         /// <summary>
         /// UI根节点。
@@ -188,6 +192,12 @@ namespace UnityGameFramework.Runtime
             if (m_EnableCloseUIFormCompleteEvent)
             {
                 m_UIManager.CloseUIFormComplete += OnCloseUIFormComplete;
+            }
+            
+            m_BlockInputComponent = transform.Find("BlockInputComponent");
+            if (m_BlockInputComponent)
+            {
+                m_BlockInputComponent.gameObject.SetActive(false);
             }
         }
 
@@ -724,6 +734,27 @@ namespace UnityGameFramework.Runtime
         private void OnCloseUIFormComplete(object sender, GameFramework.UI.CloseUIFormCompleteEventArgs e)
         {
             m_EventComponent.Fire(this, CloseUIFormCompleteEventArgs.Create(e));
+        }
+        
+        public void BlockInput(string reason)
+        {
+            m_BlockInputReasons.Add(reason);
+            if (m_BlockInputComponent)
+            {
+                m_BlockInputComponent.gameObject.SetActive(true);
+            }
+        }
+        
+        public void CancelBlockInput(string reason)
+        {
+            m_BlockInputReasons.Remove(reason);
+            if (m_BlockInputReasons.Count == 0)
+            {
+                if (m_BlockInputComponent)
+                {
+                    m_BlockInputComponent.gameObject.SetActive(false);
+                }
+            }
         }
     }
 }

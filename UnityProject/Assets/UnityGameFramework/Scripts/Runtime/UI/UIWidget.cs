@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace UnityGameFramework.Runtime
 {
-    public abstract class UIWidget:MonoBehaviour,IUIBehaviour
+    public abstract class UIWidget:MonoBehaviour
     {
         /// <summary>
         /// 获取界面实例。

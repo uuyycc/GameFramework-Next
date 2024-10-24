@@ -8,7 +8,7 @@ namespace UnityGameFramework.Runtime
     /// <summary>
     /// 界面逻辑基类。
     /// </summary>
-    public abstract partial class UIFormLogic : MonoBehaviour, IUIBehaviour
+    public abstract partial class UIFormLogic : MonoBehaviour
     {
         private bool m_Available = false;
         private bool m_Visible = false;
@@ -133,9 +133,8 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="isShutdown">是否是关闭界面管理器时触发。</param>
         /// <param name="userData">用户自定义数据。</param>
-        public virtual void OnClose(bool isShutdown, object userData)
+        protected internal virtual void OnClose(bool isShutdown, object userData)
         {
-            gameObject.SetLayerRecursively(m_OriginalLayer);
             Visible = false;
             m_Available = false;
         }
@@ -143,7 +142,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 界面暂停。
         /// </summary>
-        public virtual void OnPause()
+        protected internal virtual void OnPause()
         {
             Visible = false;
         }
@@ -151,7 +150,7 @@ namespace UnityGameFramework.Runtime
         /// <summary>
         /// 界面暂停恢复。
         /// </summary>
-        public virtual void OnResume()
+        protected internal virtual void OnResume()
         {
             Visible = true;
         }
@@ -183,7 +182,7 @@ namespace UnityGameFramework.Runtime
         /// </summary>
         /// <param name="elapseSeconds">逻辑流逝时间，以秒为单位。</param>
         /// <param name="realElapseSeconds">真实流逝时间，以秒为单位。</param>
-        public virtual void OnUpdate(float elapseSeconds, float realElapseSeconds)
+        protected internal virtual void OnUpdate(float elapseSeconds, float realElapseSeconds)
         {
         }
 

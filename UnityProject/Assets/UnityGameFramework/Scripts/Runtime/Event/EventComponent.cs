@@ -85,6 +85,19 @@ namespace UnityGameFramework.Runtime
         {
             m_EventManager.Subscribe(id, handler);
         }
+        
+        /// <summary>
+        /// 订阅事件处理回调函数。
+        /// </summary>
+        /// <param name="id">事件类型编号。</param>
+        /// <param name="handler">要订阅的事件处理回调函数。</param>
+        public void TrySubscribe(int id, EventHandler<GameEventArgs> handler)
+        {
+            if (!m_EventManager.Check(id, handler))
+            {
+                m_EventManager.Subscribe(id, handler);
+            }
+        }
 
         /// <summary>
         /// 取消订阅事件处理回调函数。
@@ -94,6 +107,19 @@ namespace UnityGameFramework.Runtime
         public void Unsubscribe(int id, EventHandler<GameEventArgs> handler)
         {
             m_EventManager.Unsubscribe(id, handler);
+        }
+        
+        /// <summary>
+        /// 取消订阅事件处理回调函数。
+        /// </summary>
+        /// <param name="id">事件类型编号。</param>
+        /// <param name="handler">要取消订阅的事件处理回调函数。</param>
+        public void TryUnsubscribe(int id, EventHandler<GameEventArgs> handler)
+        {
+            if (m_EventManager.Check(id, handler))
+            {
+                m_EventManager.Unsubscribe(id, handler);
+            }
         }
 
         /// <summary>

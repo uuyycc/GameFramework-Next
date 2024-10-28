@@ -21,6 +21,7 @@ namespace UnityGameFramework.Editor
         private SerializedProperty m_JsonHelperTypeName = null;
         private SerializedProperty m_FrameRate = null;
         private SerializedProperty m_GameSpeed = null;
+        private SerializedProperty m_DefaultGameSpeed = null;
         private SerializedProperty m_RunInBackground = null;
         private SerializedProperty m_NeverSleep = null;
 
@@ -106,12 +107,6 @@ namespace UnityGameFramework.Editor
             EditorGUILayout.BeginVertical("box");
             {
                 float gameSpeed = EditorGUILayout.Slider("Game Speed", m_GameSpeed.floatValue, 0f, 8f);
-                int selectedGameSpeed = GUILayout.SelectionGrid(GetSelectedGameSpeed(gameSpeed), GameSpeedForDisplay, 5);
-                if (selectedGameSpeed >= 0)
-                {
-                    gameSpeed = GetGameSpeed(selectedGameSpeed);
-                }
-
                 if (gameSpeed != m_GameSpeed.floatValue)
                 {
                     if (EditorApplication.isPlaying)
@@ -121,6 +116,24 @@ namespace UnityGameFramework.Editor
                     else
                     {
                         m_GameSpeed.floatValue = gameSpeed;
+                    }
+                }
+                
+                float defaultGameSpeed = EditorGUILayout.Slider("Default Game Speed", m_DefaultGameSpeed.floatValue, 0.1f, 8f);
+                int selectedGameSpeed = GUILayout.SelectionGrid(GetSelectedGameSpeed(defaultGameSpeed), GameSpeedForDisplay, 5);
+                if (selectedGameSpeed >= 0)
+                {
+                    defaultGameSpeed = GetGameSpeed(selectedGameSpeed);
+                }
+                if (defaultGameSpeed != m_DefaultGameSpeed.floatValue)
+                {
+                    if (EditorApplication.isPlaying)
+                    {
+                        t.DefaultGameSpeed = defaultGameSpeed;
+                    }
+                    else
+                    {
+                        m_DefaultGameSpeed.floatValue = defaultGameSpeed;
                     }
                 }
             }
@@ -172,6 +185,7 @@ namespace UnityGameFramework.Editor
             m_JsonHelperTypeName = serializedObject.FindProperty("m_JsonHelperTypeName");
             m_FrameRate = serializedObject.FindProperty("m_FrameRate");
             m_GameSpeed = serializedObject.FindProperty("m_GameSpeed");
+            m_DefaultGameSpeed = serializedObject.FindProperty("m_DefaultGameSpeed");
             m_RunInBackground = serializedObject.FindProperty("m_RunInBackground");
             m_NeverSleep = serializedObject.FindProperty("m_NeverSleep");
 

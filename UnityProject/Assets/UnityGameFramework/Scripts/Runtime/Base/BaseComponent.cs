@@ -40,6 +40,9 @@ namespace UnityGameFramework.Runtime
 
         [SerializeField]
         private float m_GameSpeed = 1f;
+        
+        [SerializeField]
+        private float m_DefaultGameSpeed = 1f;
 
         [SerializeField]
         private bool m_RunInBackground = true;
@@ -90,6 +93,23 @@ namespace UnityGameFramework.Runtime
             {
                 Time.timeScale = m_GameSpeed = value >= 0f ? value : 0f;
             }
+        }
+        
+        /// <summary>
+        /// 获取或设置默认游戏速度
+        /// </summary>
+        public float DefaultGameSpeed
+        {
+            get => m_DefaultGameSpeed;
+            set => m_DefaultGameSpeed = value;
+        }
+
+        /// <summary>
+        /// 重置为默认游戏速度
+        /// </summary>
+        public void ResetToDefaultGameSpeed()
+        {
+            GameSpeed = DefaultGameSpeed;
         }
 
         /// <summary>
